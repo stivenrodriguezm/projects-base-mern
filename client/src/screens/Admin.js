@@ -69,9 +69,3 @@ const Admin = (props) => {
 }
 
 export default Admin
-/*
-                <tr>
-                    <td></td>
-                    <td>Smith</td>
-                    <td>50</td>
-                </tr>*/
