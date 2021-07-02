@@ -70,3 +70,27 @@ exports.userData = async (req, res) => {
     }
 }
 
+exports.editUser = async (req, res) => {
+    const {name, email, description, id} = req.body
+    try {
+        const user = await User.findByIdAndUpdate(id,{
+            $set: req.body
+        }, {new: true})
+        //console.log(user)
+        res.status(200).json(user)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.adminBasicData = async (req,res) => {
+    const usersData = await User.find({})
+    const data = usersData
+    res.status(200).json({data: data})
+}
+
+exports.getUserFromAdmin = async (req,res) => {
+    const usersData = await User.find({})
+    const data = usersData
+    res.status(200).json({data: data})
+}

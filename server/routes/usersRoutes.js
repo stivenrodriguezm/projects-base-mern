@@ -4,12 +4,16 @@ const userController = require('../controllers/userControllers')
 
 //middleware
 const {requireLogin} = require("../middleware/auth")
+const {requireAdminAccount} = require("../middleware/admin")
 
 router.post("/register", userController.register)
 router.post("/login", userController.login)
-router.get("/data", requireLogin, userController.userData) //only /auth
-//router.post("/edit")
-//router.get("/logout")
+router.get("/data", requireLogin, userController.userData)
+router.put("/edit", requireLogin, userController.editUser)
+
+//admin
+router.get("/admin", requireAdminAccount, userController.adminBasicData) //get all the users
+router.get("/getUserFromAdmin/:id", requireAdminAccount, userController.getUserFromAdmin) 
 
 
 module.exports = router

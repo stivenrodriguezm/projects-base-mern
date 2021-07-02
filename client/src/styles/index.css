@@ -80,6 +80,10 @@ footer{
 .footer-left {
   width: 50%;
 }
+.footer-left nav{
+  display: flex;
+  flex-direction: column;
+}
 .footer-left a{
   text-decoration: none;
   color: rgb(0, 0, 0);
@@ -179,4 +183,51 @@ footer{
 .editarPerfilLink a{
   color: black;
   text-decoration: none;
+}
+
+
+/*  EDIT PROFILE */
+
+.editProfileContainer{
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  margin: 0 auto;
+}
+.editProfileContainer input{
+  margin-bottom: 25px;
+}
+.editProfileContainer label{
+  margin-bottom: 10px;
+}
+
+.btn-editProfile{
+  margin-top: 25px;
+  margin-bottom: 25px;
+  width: 300px;
+  height: 40px;
+  background-color: rgb(56, 56, 56);
+  color: white;
+}
+
+/* TABLE ADMIN */
+
+.containerAdminTable{
+  width: 1200px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.adminTable{
+  margin: 0 auto;
+  width: 1000px;
+}
+
+.adminTable, .adminTable th, .adminTable td {
+  border: 1px solid black;
+}
+
+.adminPanelTitle{
+  text-align: center;
+  font-size: 30px;
 }

@@ -41,8 +41,8 @@ const Register = (props) => {
     }
 
     const token = localStorage.getItem('token')
-    var decodedToken=jwt.decode(token, {complete: true});
-    var dateNow = new Date();
+   // var decodedToken=jwt.decode(token, {complete: true});
+    //var dateNow = new Date();
 
     return (
         <div className="register container">

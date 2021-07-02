@@ -7,8 +7,10 @@ import Footer from './components/Footer'
 import Register from './components/user/Register'
 import Login from './components/user/Login'
 import Profile from './components/user/Profile'
+import EditProfile from './components/user/EditProfile'
 
 import Index from './screens/Index'
+import Admin from './screens/Admin'
 
 function App() {
   return (
@@ -20,6 +22,9 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/profile/edit" component={EditProfile} />
+        <Route exact path="/admin" component={Admin} />
+
         
         <Footer />
       </Router>
@@ -28,3 +33,6 @@ function App() {
 }
 
 export default App;
+/*
+
+*/

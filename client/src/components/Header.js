@@ -1,17 +1,37 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
 const Header = (props) => {
     const token = localStorage.getItem('token')
     var decodedToken=jwt.decode(token, {complete: true})
-    var dateNow = new Date();
+    var dateNow = new Date()
+    
+    const [isAdmin, setIsAdmin] = useState(false)
 
     const logout = async () => {
         await localStorage.removeItem('token')
         await localStorage.removeItem('userInfo')
         window.location.reload()
     }
+
+    const findIfIsAdmin = async () => {
+        if(token) {
+            if(decodedToken.exp > dateNow.getTime()){
+            } else {
+                const data = await axios.get("/auth/data",{
+                    headers: {
+                        'Authorization': `bearer ${localStorage.getItem("token")}`
+                    }
+                })
+                if(data.data.userInfo.role === 1){
+                    setIsAdmin(true)
+                }
+            }
+        }
+    }
+    findIfIsAdmin()
 
     return (
         <header>
@@ -23,6 +43,7 @@ const Header = (props) => {
 
                 </div>
                 <div className="header-right">
+                    {isAdmin ? <Link to="/admin">Admin</Link> : <div></div>}
                     {token ? (decodedToken.exp < dateNow.getTime() ? <div></div> : <Link to="/profile"> Profile</Link>) : <div></div>}
                     {token ? (decodedToken.exp < dateNow.getTime() ? <div></div> : <Link onClick={logout}>Logout</Link>) : <div></div>}
                     {token ? (decodedToken.exp < dateNow.getTime() ? <div></div> : <div></div>) : <Link to="/register">Register</Link>}

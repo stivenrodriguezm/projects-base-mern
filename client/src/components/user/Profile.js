@@ -17,13 +17,11 @@ const Profile = (props) => {
                     <p className="email">{userInfo ? userInfo.email : "NULL"}</p>
                 </div>
                 <div className="editarPerfilLink">
-                    <Link>Editar perfil</Link>
+                    <Link to="/profile/edit">Editar perfil</Link>
                 </div>
                 <div>
                     <h4>Biografia</h4>
-                    <p className="description">{userInfo ? (userInfo.descripcion 
-                        ? (userInfo.descripcion)
-                        : ("No tienes una biografía aún...")) :"null"}</p>
+                    <p className="description">{userInfo ? userInfo.description != "" ? userInfo.description : "No tienes una biografía aún..." : "No tienes una biografía aún..."}</p>
                 </div>
             </div>
         </div>
