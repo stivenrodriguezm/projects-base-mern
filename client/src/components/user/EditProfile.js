@@ -1,19 +1,26 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
 const EditProfile = (props) => {
     if(!localStorage.getItem("userInfo")){
         props.history.push("/")
     }
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"))
     
     const [success, setSuccess] = useState(false)
-    const [data, setData] = useState({
-        id: JSON.parse(localStorage.getItem("userInfo"))._id,
-        name: userInfo.name,
-        email: userInfo.email,
-        description: userInfo.description
-    })
+    const [data, setData] = useState({})
+    
+    useEffect(() => {
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+        if(userInfo){
+            setData({
+                id: userInfo._id,
+                name: userInfo.name,
+                email: userInfo.email,
+                description: userInfo.description
+            })
+        }
+    }, [])
+    
 
     const handleChange = (e) => {
         e.preventDefault()

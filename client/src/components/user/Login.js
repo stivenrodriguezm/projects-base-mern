@@ -4,6 +4,10 @@ import axios from 'axios'
 import jwt from 'jsonwebtoken'
 
 const Register = (props) => {
+    if(localStorage.getItem("userInfo")){
+        props.history.push("/")
+    }
+
     const [data, setData] = useState({
         email: '',
         password: '',
@@ -33,10 +37,10 @@ const Register = (props) => {
             })
             await localStorage.setItem('userInfo', JSON.stringify(userInfo.data.userInfo))
 
-            props.history.push("/")
             window.location.reload()
-        } catch (error) {
-            console.log(error)
+            props.history.push("/")
+        } catch (err) {
+            setData({...data, error: err.response.data.message})
         }
     }
 
@@ -73,7 +77,7 @@ const Register = (props) => {
                         </input>
 
                         <button onClick={handleSubmit}>Log in</button>
-
+                        {data.error ? <p>{data.error}</p> : null}
                     </form>
                     <p>Not an user? <Link to="/register">Register now</Link></p>
                 </div>

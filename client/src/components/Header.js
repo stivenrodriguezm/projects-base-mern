@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
+import Loader from './general/Loader'
 
 const Header = (props) => {
     const token = localStorage.getItem('token')

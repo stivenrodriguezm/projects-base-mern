@@ -14,6 +14,8 @@ router.put("/edit", requireLogin, userController.editUser)
 //admin
 router.get("/admin", requireAdminAccount, userController.adminBasicData) //get all the users
 router.get("/getUserFromAdmin/:id", requireAdminAccount, userController.getUserFromAdmin) 
+router.put("/editUserFromAdmin/:id", requireAdminAccount, userController.editUserFromAdmin) 
+router.delete("/deleteUserFromAdmin/:id", requireAdminAccount, userController.deleteUserFromAdmin) 
 
 
 module.exports = router

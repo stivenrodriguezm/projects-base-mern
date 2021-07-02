@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const Register = (props) => {
+    if(localStorage.getItem("userInfo")){
+        props.history.push("/")
+    }
 
     const [data, setData] = useState({
         name: '',
@@ -15,7 +18,6 @@ const Register = (props) => {
 
     const handleChange = e => {
         setData({...data, [e.target.name]: e.target.value})
-        console.log(data)
     }
 
     const handleSubmit = async (e) => {
@@ -29,7 +31,6 @@ const Register = (props) => {
             })
             props.history.push("/login")
         } catch (err) {
-            console.log("nel")
             setData({...data, error: err.response.data.error})
 
         }
@@ -49,6 +50,7 @@ const Register = (props) => {
                 <input type="password" name="password" id="password" className="registerInput" onChange={handleChange}></input>
 
                 <button onClick={handleSubmit}>Register now</button>
+                {data.error ? <p>{data.error}</p>:null}
             </form>
             <p>Already registered? <Link to="/login">Login now</Link></p>
         </div>

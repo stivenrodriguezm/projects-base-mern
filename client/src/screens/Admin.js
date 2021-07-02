@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import Loader from '../components/general/Loader'
 
-const Admin = () => {
+const Admin = (props) => {
+    if(!localStorage.getItem("userInfo")){
+        props.history.push("/")
+    }
 
     const [usersData, setUsersData] = useState(null)
 
@@ -17,8 +21,16 @@ const Admin = () => {
 
     const editUser = async (e) => {
         e.preventDefault()
-        const id = e.target.name
-        
+        const id = e.target.id 
+    }
+    const deleteUser = async (e) => {
+        e.preventDefault()
+        await axios.delete(`/auth/deleteUserFromAdmin/${e.target.id}`,{
+            headers: {
+                'Authorization': `bearer ${localStorage.getItem("token")}`
+            }
+        })
+        window.location.reload()
     }
 
 
@@ -45,10 +57,10 @@ const Admin = () => {
                                 <td>{usuario.role}</td>
                                 <td>Desc---</td>
                                 <td><Link to={`/editFromAdmin/${usuario._id}`}>▀</Link></td>
-                                <td name={usuario._id}>X</td>
+                                <td id={usuario._id} onClick={deleteUser}>X</td>
                             </tr>
                         ))
-                        ) : (<p>loading...</p>)
+                        ) : (<Loader />)
                     }
                 </table>
             </div>

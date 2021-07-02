@@ -1,20 +1,40 @@
 import React, {useState, useEffect} from 'react'
+import { useParams } from "react-router-dom"
 import axios from 'axios'
 
-const Admin = () => {
+const EditUser = (props) => {
+    if(!localStorage.getItem("userInfo")){
+        props.history.push("/")
+    }
 
-    const [userData, setUserData] = useState(null)
+    const [userData, setUserData] = useState({})
+    const [success, setSuccess] = useState(false)
+    const {id} = useParams() 
 
-    const editUser = async (e) => {
-        e.preventDefault()
-        const id = e.target.name
-        axios.get(`/getUserFromAdmin/${id}`,{
+    useEffect(() => {
+        axios.get(`/auth/getUserFromAdmin/${id}`,{
             headers: {
                 'Authorization': `bearer ${localStorage.getItem("token")}`
             }
-        }).then(result => console.log(result.data) /*setUserData(result.data.data)*/)
+        }).then(user => setUserData(user.data.userInfo))
+            .then(setUserData(JSON.stringify(userData)))
+    }, [])
+
+    const handleChange = (e) => {
+        e.preventDefault()
+        setUserData({...userData, [e.target.name]: e.target.value})
+        console.log(userData)
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        await axios.put(`/auth/editUserFromAdmin/${userData._id}`, userData, {
+            headers: {
+                'Authorization': `bearer ${localStorage.getItem("token")}`
+            }
+        })
+        setSuccess(true)
+    }
 
     return (
         <div className="container">
@@ -27,25 +47,23 @@ const Admin = () => {
                         <th>Email</th>
                         <th>Rol</th>
                         <th>Description</th>
-                        <th>Edit</th>
-                        <th>Remove</th>
                     </tr>
-                    {usersData ?
-                        (usersData.map((usuario) =>(
-                            <tr>
-                                <td>{usuario._id}</td>
-                                <td>{usuario.name}</td>
-                                <td>{usuario.email}</td>
-                                <td>{usuario.role}</td>
-                                <td>Desc---</td>
-                                <td name={usuario._id}>▀</td>
-                                <td name={usuario._id}>X</td>
-                            </tr>
-                        ))
-                        ) : (<p>loading...</p>)
+                    {userData ?
+                        <tr>
+                            <td><input value={userData._id} name="_id" onChange={handleChange}></input></td>
+                            <td><input value={userData.name} name="name" onChange={handleChange}></input></td>
+                            <td><input value={userData.email} name="email" onChange={handleChange}></input></td>
+                            <td><input value={userData.role} name="role" onChange={handleChange}></input></td>
+                            <td><input value={"desc---"} name="description" onChange={handleChange}></input></td>
+                        </tr>
+                        : null
                     }
                 </table>
+                <button onClick={handleSubmit}>Update</button>
+                {success ? <p>User successfully updated</p> : null}
             </div>
         </div>
     )
 }
+
+export default EditUser

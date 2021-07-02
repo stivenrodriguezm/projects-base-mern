@@ -8,6 +8,7 @@ import Register from './components/user/Register'
 import Login from './components/user/Login'
 import Profile from './components/user/Profile'
 import EditProfile from './components/user/EditProfile'
+import EditUser from './components/admin/EditUser'
 
 import Index from './screens/Index'
 import Admin from './screens/Admin'
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/profile/edit" component={EditProfile} />
         <Route exact path="/admin" component={Admin} />
+        <Route exact path="/editFromAdmin/:id" component={EditUser} />
 
         
         <Footer />

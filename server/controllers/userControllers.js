@@ -2,6 +2,7 @@ const User = require("../models/UserModel")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const jwt_decode = require('jwt-decode')
+const {URL} = require('url')
 
 //register
 
@@ -37,13 +38,13 @@ exports.login = async (req,res) => {
         //find the user in the database
         const user = await User.findOne({email})
         if (!user) {
-            return res.status(401).json({loginSuccess: false, message: "Wrong credentials"})
+            return res.status(401).json({message: "Wrong credentials"})
         } 
 
         //validate password
         const validated = await bcrypt.compare(password, user.password)
         if(!validated) 
-            return res.status(402).json({loginSuccess: false, message: "Wrong credentials"})
+            return res.status(402).json({message: "Wrong credentials"})
 
         //generate and send token
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET,{expiresIn:'24h'})
@@ -90,7 +91,32 @@ exports.adminBasicData = async (req,res) => {
 }
 
 exports.getUserFromAdmin = async (req,res) => {
-    const usersData = await User.find({})
-    const data = usersData
-    res.status(200).json({data: data})
+    const url = req.url
+    const splittedUrl = url.split("/")
+    const id = splittedUrl[2]
+    
+    const userInfo = await User.findById(id).select("-password")
+    
+    console.log(userInfo)
+    res.status(200).json({userInfo})
+}
+
+exports.editUserFromAdmin = async (req,res) => {
+    const {name, email, description, _id, rol} = req.body
+    try {
+        const user = await User.findByIdAndUpdate(_id,{
+            $set: req.body
+        }, {new: true})
+        res.status(200).json(user)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.deleteUserFromAdmin = async (req,res) => {
+    const url = req.url
+    const splittedUrl = url.split("/")
+    const id = splittedUrl[2]
+
+    await User.findByIdAndDelete(id)
 }
