@@ -8,7 +8,7 @@ import Register from './components/user/Register'
 import Login from './components/user/Login'
 import Profile from './components/user/Profile'
 import EditProfile from './components/user/EditProfile'
-import EditUser from './components/admin/EditUser'
+import EditUser from './components/admin/EditUserFromAdmin'
 
 import Index from './screens/Index'
 import Admin from './screens/Admin'
